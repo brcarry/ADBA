@@ -67,7 +67,11 @@ class LocalUpdate_with_mask(object):
 
                 images_poison = images.clone().detach()
                 labels_poison = labels.clone().detach()
-
+                mask_temp = mask.detach()
+                pattern_temp = pattern.detach()
+                images_poison = add_trigger(images_poison, mask_temp, pattern_temp)
+                labels_poison[:] = target_label
+                
                 # ---------------------------------------
                 model.train()
                 optimizer_for_teacher.zero_grad()
